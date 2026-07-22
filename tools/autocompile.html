@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Auto compile</title></head>
+<body style="font-family:system-ui;padding:2rem">
+<h1 id="s">Loading images…</h1>
+<script type="module">
+  import { Compiler } from 'mind-ar/dist/mindar-image.prod.js';
+  const urls = [
+    '/src/targets/target0.png',
+    '/src/targets/target1.png',
+    '/src/targets/target2.png',
+    '/src/targets/target3.png',
+  ];
+  const s = document.getElementById('s');
+  function loadImage(url){return new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=url;});}
+  (async () => {
+    try {
+      const imgs = [];
+      for (const u of urls) imgs.push(await loadImage(u));
+      s.textContent = 'Compiling…';
+      const compiler = new Compiler();
+      await compiler.compileImageTargets(imgs, (p)=>{ s.textContent = 'Compiling '+Math.round(p)+'%'; });
+      const buffer = await compiler.exportData();      // ArrayBuffer/Uint8Array
+      const bytes = new Uint8Array(buffer);
+      let bin = '';
+      for (let i=0;i<bytes.length;i++) bin += String.fromCharCode(bytes[i]);
+      window.__mind = btoa(bin);
+      window.__mindLen = bytes.length;
+      // Auto-download targets.mind
+      const blob = new Blob([bytes], {type:'application/octet-stream'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'targets.mind';
+      a.textContent = 'Download targets.mind (' + bytes.length + ' bytes)';
+      a.style.cssText = 'display:block;margin-top:1rem;font-size:1.2rem;color:#0a7';
+      document.body.appendChild(a);
+      a.click();
+      s.textContent = 'DONE — targets.mind downloaded. Move it into public/targets.mind';
+    } catch (e) {
+      window.__mindErr = String(e);
+      s.textContent = 'ERROR '+String(e);
+    }
+  })();
+</script>
+</body></html>

@@ -1,0 +1,49 @@
+{
+  "_comment": "Maps each compiled target (by index, matching order in targets.mind) to its AR content. Add a page = add a target image, recompile targets.mind, and add one entry here. No code changes needed.",
+  "targets": [
+    {
+      "index": 0,
+      "name": "Sample page — 3D model",
+      "type": "glb",
+      "asset": "assets/model.glb",
+      "options": {
+        "scale": 0.3,
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
+        "autoplayAnimations": true
+      }
+    },
+    {
+      "index": 1,
+      "name": "Sample page — video",
+      "type": "video",
+      "asset": "assets/clip.mp4",
+      "options": {
+        "width": 1,
+        "height": 0.5625,
+        "loop": true
+      }
+    },
+    {
+      "index": 2,
+      "name": "Sample page — audio",
+      "type": "audio",
+      "asset": "assets/sound.mp3",
+      "options": {
+        "loop": false,
+        "volume": 1.0,
+        "showIndicator": true
+      }
+    },
+    {
+      "index": 3,
+      "name": "Sample page — motion graphic / graph",
+      "type": "motion",
+      "asset": "bars",
+      "options": {
+        "width": 1,
+        "height": 0.6
+      }
+    }
+  ]
+}

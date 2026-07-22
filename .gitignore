@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+ios/
+android/
+*.log
+.viewall.log

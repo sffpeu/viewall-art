@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>GLB test</title></head>
+<body style="margin:0;background:#111">
+<script type="module">
+  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+  const loader = new GLTFLoader();
+  loader.load('/assets/model.glb', (gltf) => {
+    const meshes = [];
+    gltf.scene.traverse(o => { if (o.isMesh) meshes.push(o.name || 'mesh'); });
+    window.__result = {
+      ok: true,
+      meshes,
+      animations: gltf.animations.map(a => ({ name: a.name, duration: a.duration, tracks: a.tracks.length }))
+    };
+    console.log('GLB_OK', JSON.stringify(window.__result));
+  }, undefined, (err) => {
+    window.__result = { ok: false, error: String(err) };
+    console.error('GLB_FAIL', String(err));
+  });
+</script>
+</body></html>

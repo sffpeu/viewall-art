@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Viewall ARt</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      :root {
+        --bg: #0d111b; --panel: #161d2c; --line: #263149;
+        --text: #e8edf4; --muted: #9fb0c8; --accent: #4fd1c5; --accent2: #b794f6;
+      }
+      html, body { min-height: 100%; font-family: -apple-system, system-ui, sans-serif; color: var(--text);
+        background: radial-gradient(1200px 700px at 70% -10%, #1a2337 0%, var(--bg) 55%); }
+      .wrap { max-width: 960px; margin: 0 auto; padding: 4rem 1.5rem 3rem; }
+      header.hero { text-align: center; margin-bottom: 3rem; }
+      .logo { font-size: clamp(2.4rem, 7vw, 4rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+      .logo span { background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .tagline { color: var(--muted); font-size: clamp(1rem, 2.5vw, 1.25rem); margin-top: 1rem; max-width: 34rem; margin-left: auto; margin-right: auto; line-height: 1.5; }
+      .cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.2rem; }
+      .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 1.8rem; border-radius: 999px; font-size: 1.05rem; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid var(--line); }
+      .btn.primary { background: var(--accent); color: #06231f; border-color: var(--accent); }
+      .btn.ghost { background: var(--panel); color: var(--text); }
+      .btn:hover { transform: translateY(-1px); }
+      .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+      .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1.3rem; }
+      .card .em { font-size: 1.6rem; }
+      .card h3 { font-size: 1.05rem; margin: 0.5rem 0 0.3rem; }
+      .card p { color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
+      .ethos { margin-top: 2.5rem; background: linear-gradient(180deg, rgba(183,148,246,0.08), rgba(79,209,197,0.05)); border: 1px solid var(--line); border-radius: 16px; padding: 1.6rem 1.8rem; }
+      .ethos h2 { font-size: 1.15rem; margin-bottom: 0.6rem; }
+      .ethos p { color: var(--muted); line-height: 1.6; }
+      .steps { margin-top: 2.5rem; }
+      .steps h2 { font-size: 1.15rem; margin-bottom: 0.8rem; }
+      .steps ol { color: var(--muted); line-height: 1.7; padding-left: 1.2rem; }
+      .steps b { color: var(--text); }
+      footer { margin-top: 3rem; text-align: center; color: #5a6b83; font-size: 0.82rem; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 1.4rem; }
+      footer .free { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hero">
+        <div class="logo">Viewall <span>ARt</span></div>
+        <p class="tagline">Make printed art come alive. Point a phone at a poem, a painting, a card or a page — and 3D, sound, motion and touchable links rise from it.</p>
+        <div class="cta">
+          <a class="btn primary" href="./builder.html">✏️ Open the Builder</a>
+          <a class="btn ghost" href="./viewer.html">📱 Open the Viewer</a>
+        </div>
+      </header>
+
+      <section class="cards">
+        <div class="card"><div class="em">📝</div><h3>Text that moves</h3><p>Built for poets first — bring words off the page with animation, sound and links.</p></div>
+        <div class="card"><div class="em">🎨</div><h3>Paintings that breathe</h3><p>Add sound and movement to your paintings; a canvas becomes a doorway.</p></div>
+        <div class="card"><div class="em">🧊</div><h3>Any trigger, any size</h3><p>Posters, cards, book pages, business cards — up to ten elements each.</p></div>
+        <div class="card"><div class="em">🔗</div><h3>Touchable</h3><p>Tap to open a link, dial, or write an email. Drag things through space.</p></div>
+      </section>
+
+      <section class="ethos">
+        <h2>Free, and meant to stay free</h2>
+        <p>This kind of tool has sat behind big-money subscriptions and per-view quotas for too long — pricing artists out of their own work. Viewall ARt is built to be owned and shared: no click quotas, no locked exports. Made for community and open development.</p>
+      </section>
+
+      <section class="steps">
+        <h2>How it works</h2>
+        <ol>
+          <li>In the <b>Builder</b>, load the image you want to trigger from and lay out your elements.</li>
+          <li>Set what each element does — play, animate, open a link.</li>
+          <li>Hit <b>Publish</b> to get a self-contained package you can host anywhere.</li>
+          <li>Anyone points a phone at the print through the <b>Viewer</b> — and it comes alive.</li>
+        </ol>
+      </section>
+
+      <footer>
+        <div><span class="free">Free &amp; open</span> · no subscriptions · no per-view quotas</div>
+        <div>© Sean Fortune · OLP (One Legged Publishing). All rights reserved.</div>
+      </footer>
+    </div>
+  </body>
+</html>

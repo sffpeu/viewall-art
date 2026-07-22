@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compile AR Targets → targets.mind</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 640px; margin: 3rem auto; padding: 0 1.5rem; color: #1b2436; line-height: 1.55; }
+      h1 { font-size: 1.4rem; }
+      ol { padding-left: 1.2rem; }
+      code { background: #eef1f6; padding: 0.1rem 0.35rem; border-radius: 4px; }
+      #drop { margin-top: 1.5rem; padding: 2rem; border: 2px dashed #9fb0c8; border-radius: 12px; text-align: center; color: #6b7a90; }
+      button { margin-top: 1rem; padding: 0.7rem 1.4rem; font-size: 1rem; border: none; border-radius: 8px; background: #4fd1c5; color: #0f1420; font-weight: 600; cursor: pointer; }
+      button:disabled { opacity: 0.5; }
+      #log { margin-top: 1rem; white-space: pre-wrap; font-family: ui-monospace, monospace; font-size: 0.85rem; color: #6b7a90; }
+      #preview { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+      #preview img { height: 90px; border-radius: 6px; border: 1px solid #d5dce6; }
+    </style>
+  </head>
+  <body>
+    <h1>Compile AR Targets</h1>
+    <p>Turn your page/postcard images into a single <code>targets.mind</code> file. The order you add images here is the target <code>index</code> used in <code>src/content.json</code>.</p>
+    <ol>
+      <li>Add your trigger images (well-lit, high-contrast, feature-rich photos work best).</li>
+      <li>Click <strong>Compile</strong>. It downloads <code>targets.mind</code>.</li>
+      <li>Move that file into <code>public/targets.mind</code>.</li>
+    </ol>
+
+    <div id="drop">Select or drop trigger images<br /><input type="file" id="files" accept="image/*" multiple /></div>
+    <div id="preview"></div>
+    <button id="compile" disabled>Compile → targets.mind</button>
+    <div id="log"></div>
+
+    <!-- MindAR compiler UMD build from CDN (compile-time only; the app itself bundles its own copy). -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js"></script>
+    <script>
+      const filesInput = document.getElementById('files');
+      const compileBtn = document.getElementById('compile');
+      const preview = document.getElementById('preview');
+      const log = document.getElementById('log');
+      let images = [];
+
+      function loadImage(file) {
+        return new Promise((res) => {
+          const img = new Image();
+          img.onload = () => res(img);
+          img.src = URL.createObjectURL(file);
+        });
+      }
+
+      filesInput.addEventListener('change', async (e) => {
+        images = [];
+        preview.innerHTML = '';
+        for (const file of e.target.files) {
+          const img = await loadImage(file);
+          images.push(img);
+          const thumb = new Image();
+          thumb.src = img.src;
+          preview.appendChild(thumb);
+        }
+        compileBtn.disabled = images.length === 0;
+        log.textContent = images.length + ' image(s) ready. Index order = order shown above.';
+      });
+
+      compileBtn.addEventListener('click', async () => {
+        compileBtn.disabled = true;
+        log.textContent = 'Compiling… (this can take a minute per image)';
+        const compiler = new window.MINDAR.IMAGE.Compiler();
+        await compiler.compileImageTargets(images, (p) => {
+          log.textContent = 'Compiling… ' + Math.round(p) + '%';
+        });
+        const buffer = await compiler.exportData();
+        const blob = new Blob([buffer]);
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'targets.mind';
+        a.click();
+        log.textContent = 'Done. Move targets.mind into public/.';
+        compileBtn.disabled = false;
+      });
+    </script>
+  </body>
+</html>
