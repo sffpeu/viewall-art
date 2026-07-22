@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AR Studio — Builder</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      :root {
+        --bg: #0f1420; --panel: #171e2c; --panel2: #1e2637; --line: #2a3448;
+        --text: #e8edf4; --muted: #9fb0c8; --accent: #4fd1c5;
+      }
+      html, body { height: 100%; font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+      #app { display: grid; grid-template-columns: 220px 1fr 280px; grid-template-rows: 52px 1fr; height: 100vh; }
+      header { grid-column: 1 / 4; display: flex; align-items: center; gap: 12px; padding: 0 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+      header h1 { font-size: 1rem; font-weight: 700; color: var(--accent); margin-right: 8px; }
+      header input#proj-name { background: var(--panel2); border: 1px solid var(--line); color: var(--text); padding: 6px 10px; border-radius: 6px; width: 180px; }
+      header .spacer { flex: 1; }
+      button.tb { background: var(--panel2); color: var(--text); border: 1px solid var(--line); padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+      button.tb:hover { border-color: var(--accent); }
+      button.tb.primary { background: var(--accent); color: #06231f; border-color: var(--accent); font-weight: 700; }
+      aside { background: var(--panel); overflow-y: auto; padding: 14px; }
+      aside.left { border-right: 1px solid var(--line); }
+      aside.right { border-left: 1px solid var(--line); }
+      .section-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 14px 0 8px; }
+      .add-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+      .add-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 4px; background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: 0.72rem; color: var(--text); }
+      .add-btn:hover { border-color: var(--accent); }
+      .add-btn .em { font-size: 1.3rem; }
+      #budget { font-size: 0.8rem; color: var(--muted); margin-top: 8px; text-align: center; }
+      #budget b { color: var(--accent); }
+      .layer-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font-size: 0.85rem; }
+      .layer-row:hover { background: var(--panel2); }
+      .layer-row .eye { cursor: pointer; opacity: 0.9; }
+      .layer-row .eye.off { opacity: 0.3; }
+      #canvas-wrap { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #0a0e16; background-image: radial-gradient(circle, #1a2233 1px, transparent 1px); background-size: 22px 22px; }
+      #stage-host { box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+      #empty-hint { position: absolute; color: var(--muted); text-align: center; font-size: 0.95rem; line-height: 1.6; pointer-events: none; }
+      #empty-hint.hidden { display: none; }
+      .prop { margin-bottom: 10px; }
+      .prop label { display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 3px; }
+      .prop input, .prop select, .prop textarea { width: 100%; background: var(--panel2); border: 1px solid var(--line); color: var(--text); padding: 6px 8px; border-radius: 6px; font-size: 0.85rem; }
+      .prop textarea { resize: vertical; min-height: 48px; }
+      .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+      #no-sel { color: var(--muted); font-size: 0.85rem; }
+      #del-btn { width: 100%; margin-top: 8px; background: #3a2030; border-color: #6b3048; color: #ff9db3; }
+      .hidden { display: none !important; }
+      #file-input, #proj-input { display: none; }
+    </style>
+    <script type="module" crossorigin src="./assets/builder-S-8gvmUd.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/controller-mGt1s8dJ-DzvJFrHN.js">
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>AR Studio</h1>
+        <input id="proj-name" value="Untitled" />
+        <button class="tb" id="load-img-btn">Trigger image…</button>
+        <div class="spacer"></div>
+        <button class="tb" id="open-btn">Open</button>
+        <button class="tb" id="save-btn">Save</button>
+        <button class="tb primary" id="publish-btn">Publish</button>
+      </header>
+
+      <aside class="left">
+        <div class="section-title">Add element</div>
+        <div class="add-grid" id="add-grid"></div>
+        <div id="budget"><b>0</b> / 10 elements</div>
+        <div class="section-title">Layers</div>
+        <div id="layers"></div>
+      </aside>
+
+      <div id="canvas-wrap">
+        <div id="stage-host"></div>
+        <div id="empty-hint">Click <b>“Trigger image…”</b> to load the poster,<br/>card or page your AR will trigger from.</div>
+      </div>
+
+      <aside class="right">
+        <div class="section-title">Properties</div>
+        <div id="no-sel">Select an element to edit it.</div>
+        <div id="props" class="hidden"></div>
+        <button class="tb hidden" id="del-btn">Delete element</button>
+      </aside>
+    </div>
+
+    <input type="file" id="file-input" accept="image/*" />
+    <input type="file" id="proj-input" accept=".arstudio,application/json" />
+  </body>
+</html>

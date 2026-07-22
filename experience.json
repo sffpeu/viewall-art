@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "targetsFile": "targets.mind",
+  "targets": [
+    {
+      "index": 0,
+      "image": "target0.png",
+      "heightRatio": 1.0,
+      "realWidthCm": 15,
+      "elements": [
+        { "type": "3d", "asset": "assets/model.glb", "x": 0.5, "y": 0.4, "z": 0.35, "scale": 1.2, "rotation": 0, "interaction": "click", "onClick": "animate", "autoplay": true },
+        { "type": "text", "value": "Hello from AR", "color": "#4fd1c5", "x": 0.5, "y": 0.1, "w": 0.7, "h": 0.14 },
+        { "type": "image", "asset": "assets/pic.png", "x": 0.2, "y": 0.75, "w": 0.25, "h": 0.25, "interaction": "drag" },
+        { "type": "sound", "asset": "assets/sound.mp3", "x": 0.8, "y": 0.75, "w": 0.12, "h": 0.12, "interaction": "click" },
+        { "type": "url", "label": "Visit site", "url": "https://example.com", "x": 0.3, "y": 0.9, "w": 0.28, "h": 0.1, "interaction": "click" },
+        { "type": "phone", "label": "Call", "number": "+491234567", "x": 0.7, "y": 0.9, "w": 0.2, "h": 0.1, "interaction": "click" }
+      ]
+    }
+  ]
+}
