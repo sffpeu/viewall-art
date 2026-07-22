@@ -1,0 +1,7 @@
+{
+  "appId": "com.theoneleggedpoet.viewallart",
+  "appName": "Viewall ARt",
+  "webDir": "dist",
+  "server": { "androidScheme": "https" },
+  "ios": { "contentInset": "never" }
+}
